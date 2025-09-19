@@ -9,6 +9,7 @@ type Lexer struct {
 	ch           byte // 当前正在查看的字符
 }
 
+// 每次阅读一个字符
 func (l *Lexer) readChar() {
 	if l.readPosition >= len(l.input) {
 		l.ch = 0
@@ -19,6 +20,8 @@ func (l *Lexer) readChar() {
 	l.readPosition += 1
 }
 
+// 每次阅读一个token
+// 一个token可能是变量名、运算符等
 func (l *Lexer) NextToken() token.Token {
 	var tok token.Token
 	// 跳过空格
@@ -67,7 +70,7 @@ func (l *Lexer) readIdentifier() string {
 	for isLetter(l.ch) {
 		l.readChar()
 	}
-	// 切片不包含l.position
+	// 使用切片返回一个identifier
 	return l.input[position:l.position]
 }
 
@@ -83,6 +86,7 @@ func (l *Lexer) readNumber() string {
 	for isDigit(l.ch) {
 		l.readChar()
 	}
+	// 使用切片返回一个number
 	return l.input[position:l.position]
 }
 
